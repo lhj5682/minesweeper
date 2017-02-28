@@ -5,6 +5,10 @@
 #include<Windows.h>
 #define WIDTH 20
 #define HEIGHT 20
+#define UP 72
+#define LEFT 75
+#define RIGHT 77
+#define DOWN 80
 int map[WIDTH][HEIGHT];
 int mine[WIDTH][HEIGHT];
 int move;
