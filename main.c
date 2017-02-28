@@ -154,5 +154,6 @@ void game_over(void) {
 
 
 int main(void) {
-
+	position.x = 1;
+	position.y = 1;
 }
