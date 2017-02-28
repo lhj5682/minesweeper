@@ -194,6 +194,43 @@ void show_map(void) { //맵표현 gotoxy
 	}
 }
 
+int select_box(int input) {
+	if (input == ' ')
+	{
+		if (map[position.x][position.y] == 9)
+			return 0;
+		else return 1;
+	}
+	else if (input == 'f')
+	{
+		map[position.y][position.x] = 10;
+		return 2;
+	}
+}
+
+void move_current_position(int way) {
+	if (way == UP) {
+		position.y--;
+		if (position.y == 0)
+			position.y = 1;
+	}
+	else if (way == DOWN){
+		position.y++;
+		if (position.y == 21)
+			position.y = 20;
+	}
+	else if (way == LEFT){
+		position.x--;
+		if (position.x == 0)
+			position.x = 1;
+	}
+	else if (way == RIGHT){
+		position.x++;
+		if (position.x == 21)
+			position.x = 20;
+	}
+}
+
 void game_over(void) {
 	init_map();
 	show_map();
