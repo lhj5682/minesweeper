@@ -69,7 +69,6 @@ void show_map(void) { //맵표현 gotoxy
 	8:숫자８
 	9:지뢰
 	10:깃발
-	11:유저
 	*/
 	int i, j;
 
@@ -154,5 +153,6 @@ void game_over(void) {
 
 
 int main(void) {
-
+	position.x = 1;
+	position.y = 1;
 }
