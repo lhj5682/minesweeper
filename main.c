@@ -6,7 +6,7 @@
 #define WIDTH 20
 #define HEIGHT 20
 int map[WIDTH][HEIGHT];
-
+int mine[WIDTH][HEIGHT];
 int move;
 
 typedef struct _op {
@@ -24,13 +24,22 @@ void remove_cursor(void) {
 }
 
 void init_map(void) {
-	memset(map, 4, sizeof(map));
+	memset(map, 0, sizeof(map));
+	memset(mine, 0, sizeof(mine));
 }
 
 void gotoxy(int x, int y)//gotoxy
 {
 	COORD pos = { x - 1, y - 1 };//커서가 X좌표에서 -1 한값. Y좌표에서 -1한 값으로 이동
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void make_mine(void) {
+	int x = rand() % WIDTH;
+	int y = rand() % HEIGHT;
+	if (map[y][x] == 0) {
+
+	}
 }
 
 void show_map(void) { //맵표현 gotoxy
