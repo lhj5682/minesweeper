@@ -3,14 +3,17 @@
 #include<time.h>
 #include<conio.h>
 #include<Windows.h>
+
 #define WIDTH 20
 #define HEIGHT 20
 #define UP 72
 #define LEFT 75
 #define RIGHT 77
 #define DOWN 80
-int map[WIDTH][HEIGHT];
-int mine[WIDTH][HEIGHT];
+
+int map[WIDTH][HEIGHT];//보여주는것
+int real[WIDTH][HEIGHT];//실제맵
+int open[WIDTH][HEIGHT];//open여부
 int move;
 int number_of_mine;
 
@@ -30,7 +33,8 @@ void remove_cursor(void) {
 
 void init_map(void) {
 	memset(map, 0, sizeof(map));
-	memset(mine, 0, sizeof(mine));
+	memset(real, 0, sizeof(real));
+	memset(open, 0, sizeof(open));
 }
 
 void gotoxy(int x, int y)//gotoxy
@@ -46,85 +50,96 @@ void make_mine(void) {
 	}
 	int x = rand() % WIDTH;
 	int y = rand() % HEIGHT;
-	if (map[y][x] == 0) {
-		map[y][x] = mine[y][x] = 9;
+	if (real[y][x] == 0) {
+		real[y][x] = 9;
 		count++;
 	}
 	else {
 		make_mine();
 	}
 }
+
 void make_number(void) {
 	int i, j, k;
 	int number;
 	for (i = 0; i < HEIGHT; i++) {
 		for (j = 0; j < WIDTH; j++) {
-			if (map[i][j] != 0) {
+			if (real[i][j] != 0) {
 				continue;
 			}
 			number = 0;
 			if (i != HEIGHT - 1) {
-				if (map[i + 1][j] == 9) {
+				if (real[i + 1][j] == 9) {
 					number++;
 				}
 				if (j != WIDTH - 1) {
-					if (map[i + 1][j + 1] == 9) {
+					if (real[i + 1][j + 1] == 9) {
 						number++;
 					}
 				}
 				if (j != 0) {
-					if (map[i + 1][j - 1] == 9) {
+					if (real[i + 1][j - 1] == 9) {
 						number++;
 					}
 				}
 			}
 			if (i != 0) {
-				if (map[i - 1][j] == 9) {
+				if (real[i - 1][j] == 9) {
 					number++;
 				}
 				if (j != WIDTH - 1) {
-					if (map[i - 1][j + 1] == 9) {
+					if (real[i - 1][j + 1] == 9) {
 						number++;
 					}
 				}
 				if (j != 0) {
-					if (map[i - 1][j - 1] == 9) {
+					if (real[i - 1][j - 1] == 9) {
 						number++;
 					}
 				}
 
 			}
-			if (map[i][j] == 9) {
+			if (real[i][j] == 9) {
 				number++;
 			}if (j != WIDTH - 1) {
-				if (map[i][j + 1] == 9) {
+				if (real[i][j + 1] == 9) {
 					number++;
 				}
 			}if (j != 0) {
-				if (map[i][j - 1] == 9) {
+				if (real[i][j - 1] == 9) {
 					number++;
 				}
 			}
-			map[i][j] = number;
+			real[i][j] = number;
+		}
+	}
+}
 
+void update_map(void) {
+	int i, j;
+	for (i = 0; i < HEIGHT; i++) {
+		for (j = 0; j < WIDTH; j++) {
+			if (open[i][j] == 1) {
+				map[i][j] == real[i][j];
+			}
 		}
 	}
 }
 void show_map(void) { //맵표현 gotoxy
-	/*
-	매직넘버
-	0:빈칸
-	1:숫자１
-	2:숫자２
-	3:숫자３
-	4:숫자４
-	5:숫자５
-	6:숫자６
-	7:숫자７
-	8:숫자８
-	9:지뢰
-	10:깃발
-	*/
+					  /*
+					  매직넘버
+					  0:빈칸
+					  1:숫자１
+					  2:숫자２
+					  3:숫자３
+					  4:숫자４
+					  5:숫자５
+					  6:숫자６
+					  7:숫자７
+					  8:숫자８
+					  9:지뢰
+					  10:깃발
+					  */
 	int i, j;
 
 	gotoxy(1, 1);
@@ -214,17 +229,17 @@ void move_current_position(int way) {
 		if (position.y == 0)
 			position.y = 1;
 	}
-	else if (way == DOWN){
+	else if (way == DOWN) {
 		position.y++;
 		if (position.y == 21)
 			position.y = 20;
 	}
-	else if (way == LEFT){
+	else if (way == LEFT) {
 		position.x--;
 		if (position.x == 0)
 			position.x = 1;
 	}
-	else if (way == RIGHT){
+	else if (way == RIGHT) {
 		position.x++;
 		if (position.x == 21)
 			position.x = 20;
@@ -239,7 +254,6 @@ void game_over(void) {
 	gotoxy((WIDTH + 7) / 2, ((HEIGHT + 1) / 2) + 1);
 	printf("move :%d", move);
 }
-
 
 int main(void) {
 	position.x = 1;
