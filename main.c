@@ -54,7 +54,62 @@ void make_mine(void) {
 		make_mine();
 	}
 }
+void make_number(void) {
+	int i, j, k;
+	int number;
+	for (i = 0; i < HEIGHT; i++) {
+		for (j = 0; j < WIDTH; j++) {
+			if (map[i][j] != 0) {
+				continue;
+			}
+			number = 0;
+			if (i != HEIGHT - 1) {
+				if (map[i + 1][j] == 9) {
+					number++;
+				}
+				if (j != WIDTH - 1) {
+					if (map[i + 1][j + 1] == 9) {
+						number++;
+					}
+				}
+				if (j != 0) {
+					if (map[i + 1][j - 1] == 9) {
+						number++;
+					}
+				}
+			}
+			if (i != 0) {
+				if (map[i - 1][j] == 9) {
+					number++;
+				}
+				if (j != WIDTH - 1) {
+					if (map[i - 1][j + 1] == 9) {
+						number++;
+					}
+				}
+				if (j != 0) {
+					if (map[i - 1][j - 1] == 9) {
+						number++;
+					}
+				}
 
+			}
+			if (map[i][j] == 9) {
+				number++;
+			}if (j != WIDTH - 1) {
+				if (map[i][j + 1] == 9) {
+					number++;
+				}
+			}if (j != 0) {
+				if (map[i][j - 1] == 9) {
+					number++;
+				}
+			}
+			map[i][j] = number;
+
+		}
+	}
+}
 void show_map(void) { //맵표현 gotoxy
 	/*
 	매직넘버
@@ -119,9 +174,6 @@ void show_map(void) { //맵표현 gotoxy
 				}
 				else if (map[i][j] == 10) {
 					printf("▶");//전각문자
-				}
-				else if (map[i][j] == 11) {
-					printf("○");//hole
 				}
 			}
 			printf("┃");// 테두리
