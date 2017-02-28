@@ -8,6 +8,7 @@
 int map[WIDTH][HEIGHT];
 int mine[WIDTH][HEIGHT];
 int move;
+int number_of_mine;
 
 typedef struct _op {
 	int x;
@@ -35,10 +36,18 @@ void gotoxy(int x, int y)//gotoxy
 }
 
 void make_mine(void) {
+	static int count = 0;
+	if (count == number_of_mine) {
+		return;
+	}
 	int x = rand() % WIDTH;
 	int y = rand() % HEIGHT;
 	if (map[y][x] == 0) {
-
+		map[y][x] = mine[y][x] = 9;
+		count++;
+	}
+	else {
+		make_mine();
 	}
 }
 
