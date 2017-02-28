@@ -218,8 +218,14 @@ int select_box(int input) {
 	}
 	else if (input == 'f')
 	{
-		map[position.y][position.x] = 10;
-		return 2;
+		if (map[position.y][position.x] == 10) 
+		{
+			map[position.y][position.x] = real[position.x][position.y];
+		}
+		else 
+		{
+			map[position.y][position.x] = 10;
+		}
 	}
 }
 
